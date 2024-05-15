@@ -39,6 +39,21 @@ public class EquipoServiceImpl  implements EquipoService{
 	}
 
 	@Override
+	public EquipoResponse findById(Integer id) {
+		EquipoRest equipoRest = equipoMapper.findById(id);
+		EquipoResultsResponse response = new EquipoResultsResponse();
+		response.setEquipoid(equipoRest.getEquipoid());
+		response.setName(equipoRest.getName());
+		response.setShort_Name(equipoRest.getShort_Name());
+		response.setLogo(equipoRest.getLogo()); // Asumiendo que logo ya está en base64
+		response.setPrimaryColor(equipoRest.getPrimaryColor());
+		response.setSecondaryColor(equipoRest.getSecondaryColor());
+		List<PlayerActiveTeamResponse> playerActiveTeamResponseList = playerService.findByTeamId(equipoRest.getEquipoid());
+		response.setPlayerActiveTeamResponse(playerActiveTeamResponseList);
+		return response;
+	}
+
+	@Override
 	public List<EquipoResultsResponse> findByDivisionId(Integer id) {
 		List<EquipoResultsRest> equipoResultsRests = equipoMapper.findByDivisionId(id);
 		List<EquipoResultsResponse> equipoResultsResponses = new ArrayList<>();
@@ -58,7 +73,7 @@ public class EquipoServiceImpl  implements EquipoService{
 		response.setEquipoid(equipoResultsRests.get(i).getEquipoid());
 		response.setName(equipoResultsRests.get(i).getName());
 		response.setShort_Name(equipoResultsRests.get(i).getShort_Name());
-		response.setLogoBase64(equipoResultsRests.get(i).getLogo()); // Asumiendo que logo ya está en base64
+		response.setLogo(equipoResultsRests.get(i).getLogo()); // Asumiendo que logo ya está en base64
 		response.setPrimaryColor(equipoResultsRests.get(i).getPrimaryColor());
 		response.setSecondaryColor(equipoResultsRests.get(i).getSecondaryColor());
 
@@ -79,7 +94,7 @@ public class EquipoServiceImpl  implements EquipoService{
 
 		equipoResponse.setEquipoid(equipoRestList.get(i).getEquipoid());
 		equipoResponse.setName(equipoRestList.get(i).getName());
-		equipoResponse.setLogoBase64(equipoRestList.get(i).getLogo());
+		equipoResponse.setLogo(equipoRestList.get(i).getLogo());
 		equipoResponse.setShort_Name(equipoRestList.get(i).getShort_Name());
 		equipoResponse.setPrimaryColor(equipoRestList.get(i).getPrimaryColor());
 		equipoResponse.setSecondaryColor(equipoRestList.get(i).getSecondaryColor());

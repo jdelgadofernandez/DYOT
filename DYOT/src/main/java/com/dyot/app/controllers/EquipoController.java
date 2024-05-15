@@ -27,6 +27,12 @@ public class EquipoController {
 		return equipoService.findAll();
 	}
 
+	@GetMapping("retrieveById/")
+	public EquipoResponse retrieveById(@RequestParam("id") Integer id){
+
+		return equipoService.findById(id);
+	}
+
 	@GetMapping("retrieveByDivisionId/")
 	public List<EquipoResultsResponse> findByDivisionId(@RequestParam("id") Integer id){
 

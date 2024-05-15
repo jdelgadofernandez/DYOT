@@ -18,9 +18,9 @@ public interface PlayerMapper {
     @Select("SELECT * FROM JUGADOR WHERE JUGADORID=#{id}")
     PlayerRest findById(Integer id);
 
-    @Select("SELECT J.* FROM JUGADOR J\n" +
+    @Select("SELECT J.*, HJE.FECHAINICIO FROM JUGADOR J\n" +
             "LEFT JOIN historialjugadorequipo HJE ON HJE.JUGADORID = J.JUGADORID\n" +
             "LEFT JOIN EQUIPO E ON E.EQUIPOID = HJE.EQUIPOID\n" +
-            "WHERE E.EQUIPOID = #{id} AND HJE.FECHAFIN IS NOT NULL")
+            "WHERE E.EQUIPOID = #{id} AND HJE.FECHAFIN IS NULL")
     List<PlayerActiveTeamRest> findByTeamId(Integer id);
 }

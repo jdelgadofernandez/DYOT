@@ -15,4 +15,6 @@ public interface SeasonMapper {
 
 	@Select("SELECT * FROM EquipoMapper WHERE TEMPORADADID = #{id}")
 	SeasonRest findById(Integer id);
+
+
 }

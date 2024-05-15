@@ -10,7 +10,7 @@ import java.util.List;
 @Data
 public class EquipoResponse {
 
-    @JsonProperty("id")
+    @JsonProperty("equipoid")
     private Integer equipoid;
 
     @JsonProperty("name")

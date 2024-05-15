@@ -19,4 +19,5 @@ public interface DivisionMapper {
 	@Select("SELECT D.* FROM DIVISION D\n" +
 			"WHERE TEMPORADAID = #{id}")
 	List<DivisionRest> findBySeasonId(Integer id);
+
 }

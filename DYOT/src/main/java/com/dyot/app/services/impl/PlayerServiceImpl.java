@@ -3,8 +3,10 @@ package com.dyot.app.services.impl;
 
 import com.dyot.app.dto.PlayerActiveTeamResponse;
 import com.dyot.app.dto.PlayerResponse;
+import com.dyot.app.dto.PlayerStoryResponse;
 import com.dyot.app.entities.PlayerActiveTeamRest;
 import com.dyot.app.entities.PlayerRest;
+import com.dyot.app.mapper.EquipoMapper;
 import com.dyot.app.mapper.PlayerMapper;
 import com.dyot.app.services.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,7 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Autowired
     private PlayerMapper playerMapper;
+
 
     @Override
     public List<PlayerResponse> findAll() {
@@ -39,6 +42,16 @@ public class PlayerServiceImpl implements PlayerService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public PlayerStoryResponse retrievePlayerStory(Integer id) {
+        PlayerRest player = playerMapper.findById(id);
+        PlayerStoryResponse response = convertPlayerStoryToResponse(player);
+        //response.setPlayerTeamListResponse(equipoMapper.retrievePlayerHistoryTeamList(id));
+
+        return null;
+    }
+
+
     private PlayerResponse convertToResponse(PlayerRest playerRest) {
         PlayerResponse response = new PlayerResponse();
         response.setJugadorid(playerRest.getJugadorid());
@@ -48,13 +61,23 @@ public class PlayerServiceImpl implements PlayerService {
         return response;
     }
 
+    private PlayerStoryResponse convertPlayerStoryToResponse(PlayerRest playerRest) {
+        PlayerStoryResponse response = new PlayerStoryResponse();
+        response.setJugadorid(playerRest.getJugadorid());
+        response.setName(playerRest.getName());
+        response.setSurname(playerRest.getSurname());
+        response.setIngameName(playerRest.getIngameName());
+        return response;
+    }
+
+
     private PlayerActiveTeamResponse convertToResponseActive(PlayerActiveTeamRest playerRest) {
         PlayerActiveTeamResponse response = new PlayerActiveTeamResponse();
         response.setJugadorid(playerRest.getJugadorid());
         response.setName(playerRest.getName());
         response.setSurname(playerRest.getSurname());
         response.setIngameName(playerRest.getIngameName());
-        response.setFechaInicio(playerRest.getFechaInicio());
+        response.setFecha_inicio(playerRest.getFechaInicio());
         return response;
     }
 }

@@ -3,10 +3,12 @@ package com.dyot.app.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class DivisionResponse {
 
-    @JsonProperty("id")
+    @JsonProperty("divisionId")
     private Integer divisionId;
 
     @JsonProperty("name")
@@ -14,5 +16,8 @@ public class DivisionResponse {
 
     @JsonProperty("temporada_id")
     private Integer temporadaId;
+
+    @JsonProperty("equipos")
+    private List<EquipoResultsResponse> teams;
 
 }
