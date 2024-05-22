@@ -5,6 +5,7 @@ import com.dyot.app.entities.DivisionRest;
 import com.dyot.app.mapper.DivisionMapper;
 import com.dyot.app.services.DivisionService;
 import com.dyot.app.services.EquipoService;
+import com.dyot.app.services.MatchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,9 @@ public class DivisionServiceImpl implements DivisionService {
     @Autowired
     private EquipoService equipoService;
 
+    @Autowired
+    private MatchService matchService;
+
     @Override
     public List<DivisionResponse> findBySeasonId(Integer id) {
         List<DivisionRest> divisionRestList = divisionMapper.findBySeasonId(id);
@@ -30,10 +34,21 @@ public class DivisionServiceImpl implements DivisionService {
            response.setName(divisionRest.getName());
            response.setTemporadaId(divisionRest.getTemporadaId());
            response.setTeams(equipoService.findByDivisionId(divisionRest.getDivisionId()));
-
+           response.setMatches(matchService.matchListByDivisionId(divisionRest.getDivisionId(),divisionRest.getName()));
            divisionResponseList.add(response);
         }
 
         return divisionResponseList;
+    }
+
+    public DivisionResponse findById(Integer id){
+        DivisionResponse response = new DivisionResponse();
+        DivisionRest divisionRest = divisionMapper.findById(id);
+        response.setDivisionId(divisionRest.getDivisionId());
+        response.setName(divisionRest.getName());
+        response.setTemporadaId(divisionRest.getTemporadaId());
+        response.setTeams(equipoService.findByDivisionId(divisionRest.getDivisionId()));
+        response.setMatches(matchService.matchListByDivisionId(divisionRest.getDivisionId(),divisionRest.getName()));
+        return response;
     }
 }

@@ -9,4 +9,6 @@ public interface DivisionService {
 
    public List<DivisionResponse> findBySeasonId(Integer id);
 
+   DivisionResponse findById(Integer id);
+
 }

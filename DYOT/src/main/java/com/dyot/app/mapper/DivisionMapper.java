@@ -14,7 +14,7 @@ public interface DivisionMapper {
 	List<DivisionRest> findAll();
 
 	@Select("SELECT * FROM DIVISION WHERE DIVISIONDID = #{id}")
-	EquipoRest findById(Integer id);
+	DivisionRest findById(Integer id);
 
 	@Select("SELECT D.* FROM DIVISION D\n" +
 			"WHERE TEMPORADAID = #{id}")

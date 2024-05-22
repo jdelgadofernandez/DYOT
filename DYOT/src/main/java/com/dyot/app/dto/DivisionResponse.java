@@ -20,4 +20,7 @@ public class DivisionResponse {
     @JsonProperty("equipos")
     private List<EquipoResultsResponse> teams;
 
+    @JsonProperty("matches")
+    private List<MatchResponse> matches;
+
 }
