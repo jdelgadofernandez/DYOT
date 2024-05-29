@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 public class PlayerResponse {
 
-    @JsonProperty("id")
+    @JsonProperty("jugadorid")
     private Integer jugadorid;
 
     @JsonProperty("name")

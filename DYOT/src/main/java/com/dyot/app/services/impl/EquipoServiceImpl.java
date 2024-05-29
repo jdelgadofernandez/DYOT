@@ -6,6 +6,7 @@ import java.util.List;
 import com.dyot.app.dto.EquipoResultsResponse;
 import com.dyot.app.dto.PlayerActiveTeamResponse;
 import com.dyot.app.entities.EquipoResultsRest;
+import com.dyot.app.services.MovementService;
 import com.dyot.app.services.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,7 @@ public class EquipoServiceImpl  implements EquipoService{
 
 	@Autowired
 	private PlayerService playerService;
+
 
 	@Override
 	public List<EquipoResponse> findAll() {
