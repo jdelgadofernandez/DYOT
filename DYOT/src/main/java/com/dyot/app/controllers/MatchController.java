@@ -23,5 +23,15 @@ public class MatchController {
         return matchService.matchListByDivisionId(id, name);
     }
 
+    @GetMapping(value = "/match")
+    public MatchResponse matchId(@RequestParam(value = "id") Integer id, @RequestParam(value ="name") String name){
 
+        return matchService.retrieveMatchById(id, name);
+    }
+
+    @PutMapping(value = "/updateResult")
+    public int updateResult(@RequestParam Integer partidoId, @RequestParam String resultado) {
+        return matchService.updateMatch(partidoId, resultado);
+
+    }
 }

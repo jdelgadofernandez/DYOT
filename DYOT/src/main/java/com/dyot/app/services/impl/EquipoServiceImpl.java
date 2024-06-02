@@ -70,6 +70,25 @@ public class EquipoServiceImpl  implements EquipoService{
 		return equipoResultsResponses;
 	}
 
+	@Override
+	public int updateTeam(EquipoResponse equipoResponse) {
+		EquipoRest rest = this.responseToRest(equipoResponse);
+
+		return equipoMapper.updateTeam(rest);
+	}
+
+	private EquipoRest responseToRest(EquipoResponse equipoResponse){
+		EquipoRest rest = new EquipoRest();
+		rest.setEquipoid(equipoResponse.getEquipoid());
+		rest.setName(equipoResponse.getName());
+		rest.setShort_Name(equipoResponse.getShort_Name());
+		rest.setLogo(equipoResponse.getLogo());
+		rest.setPrimaryColor(equipoResponse.getPrimaryColor());
+		rest.setSecondaryColor(equipoResponse.getSecondaryColor());
+
+		return rest;
+	}
+
 	private static void equipoResultRestToResponse(List<EquipoResultsRest> equipoResultsRests, int i, List<EquipoResultsResponse> equipoResultsResponses) {
 		EquipoResultsResponse response = new EquipoResultsResponse();
 		response.setEquipoid(equipoResultsRests.get(i).getEquipoid());
@@ -79,7 +98,6 @@ public class EquipoServiceImpl  implements EquipoService{
 		response.setPrimaryColor(equipoResultsRests.get(i).getPrimaryColor());
 		response.setSecondaryColor(equipoResultsRests.get(i).getSecondaryColor());
 
-		// Suponiendo que puedes obtener las estadísticas de otra manera, ejemplifico con métodos ficticios
 		response.setPartidos(equipoResultsRests.get(i).getPartidos());
 		response.setVictorias(equipoResultsRests.get(i).getVictorias());
 		response.setEmpates(equipoResultsRests.get(i).getEmpates());

@@ -51,6 +51,23 @@ public class PlayerServiceImpl implements PlayerService {
         return null;
     }
 
+    @Override
+    public int updatePlayer(PlayerActiveTeamResponse playerResponse) {
+        PlayerRest playerRest = this.responseToRest(playerResponse);
+
+        return playerMapper.updatePlayer(playerRest);
+    }
+
+    private PlayerRest responseToRest(PlayerActiveTeamResponse playerResponse){
+        PlayerRest rest = new PlayerRest();
+        rest.setJugadorid(playerResponse.getJugadorid());
+        rest.setName(playerResponse.getName());
+        rest.setSurname(playerResponse.getSurname());
+        rest.setIngameName(playerResponse.getIngameName());
+
+        return rest;
+    }
+
 
     private PlayerResponse convertToResponse(PlayerRest playerRest) {
         PlayerResponse response = new PlayerResponse();

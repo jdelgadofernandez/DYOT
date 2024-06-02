@@ -38,5 +38,10 @@ public class EquipoController {
 
 		return  equipoService.findByDivisionId(id);
 	}
-	
+
+	@PutMapping("update")
+	public int updateTeam(@RequestBody EquipoResponse equipoResponse){
+
+		return equipoService.updateTeam(equipoResponse);
+	}
 }

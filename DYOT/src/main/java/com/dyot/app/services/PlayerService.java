@@ -12,5 +12,5 @@ public interface PlayerService {
     PlayerResponse findById(Integer id);
     List<PlayerActiveTeamResponse> findByTeamId(Integer id);
     PlayerStoryResponse retrievePlayerStory(Integer id);
-
+    int updatePlayer(PlayerActiveTeamResponse playerResponse);
 }

@@ -13,4 +13,6 @@ public interface EquipoService {
 	public EquipoResponse findById(Integer id);
 	
 	public List<EquipoResultsResponse> findByDivisionId(Integer id);
+
+	public int updateTeam(EquipoResponse equipoResponse);
 }

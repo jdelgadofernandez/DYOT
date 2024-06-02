@@ -36,5 +36,11 @@ public class PlayerController {
 
 		return playerService.findByTeamId(teamId);
 	}
+
+	@PutMapping("updateplayer")
+	public int updatePlayer(@RequestBody PlayerActiveTeamResponse playerResponse){
+
+		return playerService.updatePlayer(playerResponse);
+	}
 	
 }

@@ -13,4 +13,6 @@ public interface MatchService {
 
     public List<MatchResponse> matchNextFourMatches(String name);
 
+    public int updateMatch(Integer id, String resultado);
+
 }
