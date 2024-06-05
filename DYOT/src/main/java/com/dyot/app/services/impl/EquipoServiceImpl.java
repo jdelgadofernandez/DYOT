@@ -6,6 +6,7 @@ import java.util.List;
 import com.dyot.app.dto.EquipoResultsResponse;
 import com.dyot.app.dto.PlayerActiveTeamResponse;
 import com.dyot.app.entities.EquipoResultsRest;
+import com.dyot.app.entities.EstadisticasEquipoDivisionRest;
 import com.dyot.app.services.MovementService;
 import com.dyot.app.services.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,6 +78,39 @@ public class EquipoServiceImpl  implements EquipoService{
 		return equipoMapper.updateTeam(rest);
 	}
 
+	@Override
+	public void createFromSeason(int equipos,Integer divId, Integer seasonId){
+	for(int i = 0;i<equipos;i++){
+		EquipoRest rest = new EquipoRest();
+		rest.setName("Equipo"+(i+1));
+		rest.setShort_Name("EQ"+(i+1));
+		rest.setLogo("assets/images/default.png");
+		rest.setPrimaryColor("#000000");
+		rest.setSecondaryColor("#FFFFFF");
+		equipoMapper.insertTeam(rest);
+
+		Integer equipoId = equipoMapper.getLastInsertedId();
+
+		EstadisticasEquipoDivisionRest estadisticasEquipoDivisionRest = getEstadisticasEquipoDivisionRest(divId, equipoId);
+		equipoMapper.insertEstadisticasEquipoDivision(estadisticasEquipoDivisionRest);
+		playerService.insertFromSeason(divId,equipoId,seasonId);
+	}
+	}
+
+	private static EstadisticasEquipoDivisionRest getEstadisticasEquipoDivisionRest(Integer divId, Integer equipoId) {
+		EstadisticasEquipoDivisionRest estadisticasEquipoDivisionRest = new EstadisticasEquipoDivisionRest();
+		estadisticasEquipoDivisionRest.setDivisionId(divId);
+		estadisticasEquipoDivisionRest.setEquipoId(equipoId);
+		estadisticasEquipoDivisionRest.setGolesFavor(0);
+		estadisticasEquipoDivisionRest.setGolesEnContra(0);
+		estadisticasEquipoDivisionRest.setPuntos(0);
+		estadisticasEquipoDivisionRest.setPartidos(0);
+		estadisticasEquipoDivisionRest.setVictorias(0);
+		estadisticasEquipoDivisionRest.setEmpates(0);
+		estadisticasEquipoDivisionRest.setDerrotas(0);
+		return estadisticasEquipoDivisionRest;
+	}
+
 	private EquipoRest responseToRest(EquipoResponse equipoResponse){
 		EquipoRest rest = new EquipoRest();
 		rest.setEquipoid(equipoResponse.getEquipoid());
@@ -120,5 +154,6 @@ public class EquipoServiceImpl  implements EquipoService{
 		equipoResponse.setSecondaryColor(equipoRestList.get(i).getSecondaryColor());
 		equipoResponseList.add(equipoResponse);
 	}
+
 
 }

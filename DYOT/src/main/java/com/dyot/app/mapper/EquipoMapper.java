@@ -3,12 +3,11 @@ package com.dyot.app.mapper;
 import java.util.List;
 
 import com.dyot.app.entities.EquipoResultsRest;
+import com.dyot.app.entities.EstadisticasEquipoDivisionRest;
 import com.dyot.app.entities.PlayerTeamListRest;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import com.dyot.app.entities.EquipoRest;
-import org.apache.ibatis.annotations.Update;
 
 @Mapper
 public interface EquipoMapper {
@@ -25,6 +24,8 @@ public interface EquipoMapper {
 			"ORDER BY EED.PUNTOS DESC, EED.GOLESFAVOR DESC")
 	List<EquipoResultsRest> findByDivisionId(Integer id);
 
+
+
 	@Select("SELECT E.*,HJE.FECHAINICIO,HJE.FECHAFIN FROM JUGADOR J\n" +
 			"LEFT JOIN historialjugadorequipo HJE ON HJE.JUGADORID = J.JUGADORID\n" +
 			"LEFT JOIN EQUIPO E ON E.EQUIPOID = HJE.EQUIPOID\n" +
@@ -39,4 +40,16 @@ public interface EquipoMapper {
 			"SECONDARYCOLOR = #{secondaryColor}" +
 			"WHERE EQUIPOID=#{equipoid}")
 	int updateTeam(EquipoRest equipoRest);
+
+	@Insert("INSERT INTO Equipo (equipoid, name, short_name, logo, primarycolor, secondarycolor) VALUES (EQUIPO_SEQ.NEXTVAL, #{name}, #{short_Name}, #{logo}, #{primaryColor}, #{secondaryColor})")
+	@Options(useGeneratedKeys = true, keyProperty = "equipoid", keyColumn = "equipoid")
+	int insertTeam(EquipoRest equipoRest);
+
+	@Insert("INSERT INTO ESTADISTICASEQUIPODIVISION (ID, DIVISIONID, EQUIPOID, GOLESFAVOR, GOLESENCONTRA, PUNTOS, PARTIDOS, VICTORIAS, EMPATES, DERROTAS) " +
+			"VALUES (ESTADISTICASQUIPODIVISION_SEQ.NEXTVAL, #{divisionId}, #{equipoId}, #{golesFavor}, #{golesEnContra}, #{puntos}, #{partidos}, #{victorias}, #{empates}, #{derrotas})")
+	@Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "ID")
+	int insertEstadisticasEquipoDivision(EstadisticasEquipoDivisionRest estadisticasEquipoDivisionRest);
+
+	@Select("SELECT equipoid FROM Equipo ORDER BY equipoid DESC FETCH FIRST 1 ROWS ONLY")
+	int getLastInsertedId();
 }

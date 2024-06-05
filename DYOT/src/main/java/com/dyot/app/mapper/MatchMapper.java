@@ -18,12 +18,13 @@ public interface MatchMapper {
 
     @Select("SELECT PDE.* FROM partidodivisionequipo PDE\n" +
             "LEFT JOIN DIVISION D ON d.divisionid = pde.divisionid\n" +
-            "WHERE pde.divisionid = #{id}")
+            "WHERE pde.divisionid = #{id}" +
+            "ORDER BY pde.fechapartido ASC")
     List<MatchRest> matchListByDivisionId(Integer id);
 
 
     @Select("SELECT PDE.* FROM partidodivisionequipo PDE\n" +
-            "ORDER BY pde.fechapartido ASC \n" +
+            "ORDER BY pde.fechapartido DESC \n" +
             "FETCH FIRST 10 ROWS ONLY")
     List<MatchRest> matchNextFourMatches();
 

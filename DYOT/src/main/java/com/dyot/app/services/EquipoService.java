@@ -8,11 +8,14 @@ import com.dyot.app.entities.EquipoRest;
 
 public interface EquipoService {
 
-	public List<EquipoResponse> findAll();
+    List<EquipoResponse> findAll();
 
-	public EquipoResponse findById(Integer id);
-	
-	public List<EquipoResultsResponse> findByDivisionId(Integer id);
+    EquipoResponse findById(Integer id);
 
-	public int updateTeam(EquipoResponse equipoResponse);
+    List<EquipoResultsResponse> findByDivisionId(Integer id);
+
+    int updateTeam(EquipoResponse equipoResponse);
+
+    void createFromSeason(int equipos,Integer divId, Integer seasonId);
+
 }

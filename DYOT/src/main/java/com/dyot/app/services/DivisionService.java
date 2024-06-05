@@ -7,8 +7,11 @@ import java.util.List;
 
 public interface DivisionService {
 
+   public List<DivisionResponse> findAll();
+
    public List<DivisionResponse> findBySeasonId(Integer id);
 
    DivisionResponse findById(Integer id);
 
+   void createFromSeason(Integer id,int number,int equipo);
 }

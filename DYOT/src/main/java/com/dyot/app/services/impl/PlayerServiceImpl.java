@@ -4,9 +4,9 @@ package com.dyot.app.services.impl;
 import com.dyot.app.dto.PlayerActiveTeamResponse;
 import com.dyot.app.dto.PlayerResponse;
 import com.dyot.app.dto.PlayerStoryResponse;
+import com.dyot.app.entities.HistorialJugadorEquipoRest;
 import com.dyot.app.entities.PlayerActiveTeamRest;
 import com.dyot.app.entities.PlayerRest;
-import com.dyot.app.mapper.EquipoMapper;
 import com.dyot.app.mapper.PlayerMapper;
 import com.dyot.app.services.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +56,28 @@ public class PlayerServiceImpl implements PlayerService {
         PlayerRest playerRest = this.responseToRest(playerResponse);
 
         return playerMapper.updatePlayer(playerRest);
+    }
+
+    @Override
+    public void insertFromSeason(Integer divId,Integer equipoId,Integer seasonId) {
+        for(int i = 0;i<3;i++){
+            PlayerRest playerRest = new PlayerRest();
+            playerRest.setName("Nombre");
+            playerRest.setSurname("Apellido");
+            playerRest.setIngameName("Jugador"+(i+1));
+            playerMapper.insertPlayer(playerRest);
+
+            Integer playerId = playerMapper.getLastInsertedId();
+
+            HistorialJugadorEquipoRest historialJugadorEquipoRest = new HistorialJugadorEquipoRest();
+            historialJugadorEquipoRest.setDivisionId(divId);
+            historialJugadorEquipoRest.setEquipoId(equipoId);
+            historialJugadorEquipoRest.setJugadorId(playerId);
+            historialJugadorEquipoRest.setTemporadaId(seasonId);
+            playerMapper.insertHistorialJugadorEquipo(historialJugadorEquipoRest);
+        }
+
+
     }
 
     private PlayerRest responseToRest(PlayerActiveTeamResponse playerResponse){

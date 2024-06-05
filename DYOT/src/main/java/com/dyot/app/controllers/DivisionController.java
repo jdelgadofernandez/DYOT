@@ -15,6 +15,12 @@ public class DivisionController {
     @Autowired
     private DivisionService divisionService;
 
+    @GetMapping("/findall")
+    private List<DivisionResponse> findAll(){
+
+        return divisionService.findAll();
+    }
+
     @GetMapping("/retrieveBySeasonId")
     private List<DivisionResponse> retrieveBySeasonId(@RequestParam(value = "id") Integer id){
 

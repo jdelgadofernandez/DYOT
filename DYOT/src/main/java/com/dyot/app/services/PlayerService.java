@@ -13,4 +13,5 @@ public interface PlayerService {
     List<PlayerActiveTeamResponse> findByTeamId(Integer id);
     PlayerStoryResponse retrievePlayerStory(Integer id);
     int updatePlayer(PlayerActiveTeamResponse playerResponse);
+    void insertFromSeason(Integer divId, Integer equipoId,Integer seasonId);
 }
