@@ -86,6 +86,11 @@ public class DivisionServiceImpl implements DivisionService {
 
     private void crearJornadas(Integer divId, List<Integer> teamsId){
 
+        //Meter id ficticio si hay equipos impares
+        if (teamsId.size() % 2 != 0) {
+            teamsId.add(-1);
+        }
+
         int jornadas = (teamsId.size()-1);
         int mitadTamano = teamsId.size()/2;
 
@@ -106,6 +111,10 @@ public class DivisionServiceImpl implements DivisionService {
     }
 
     private void crearPartido(Integer divId, Integer equipo1, Integer equipo2, int jornada){
+        if (equipo1 == -1 || equipo2 == -1) {
+            return; // Ignora los partidos con equipos ficticios
+        }
+
         PartidoDivisionEquipoRest rest = new PartidoDivisionEquipoRest();
         rest.setDivisionId(divId);
         rest.setEquipoId1(equipo1);

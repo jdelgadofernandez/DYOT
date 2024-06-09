@@ -4,9 +4,9 @@ package com.dyot.app.services.impl;
 import com.dyot.app.dto.PlayerActiveTeamResponse;
 import com.dyot.app.dto.PlayerResponse;
 import com.dyot.app.dto.PlayerStoryResponse;
-import com.dyot.app.entities.HistorialJugadorEquipoRest;
-import com.dyot.app.entities.PlayerActiveTeamRest;
-import com.dyot.app.entities.PlayerRest;
+import com.dyot.app.entities.*;
+import com.dyot.app.mapper.DivisionMapper;
+import com.dyot.app.mapper.EquipoMapper;
 import com.dyot.app.mapper.PlayerMapper;
 import com.dyot.app.services.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +21,8 @@ public class PlayerServiceImpl implements PlayerService {
     @Autowired
     private PlayerMapper playerMapper;
 
+    @Autowired
+    private DivisionMapper divisionMapper;
 
     @Override
     public List<PlayerResponse> findAll() {
@@ -55,6 +57,25 @@ public class PlayerServiceImpl implements PlayerService {
     public int updatePlayer(PlayerActiveTeamResponse playerResponse) {
         PlayerRest playerRest = this.responseToRest(playerResponse);
 
+        if(playerResponse.getEquipoid()==null){
+            playerMapper.updateTeamPlayer(playerResponse.getJugadorid());
+
+        }
+        else{
+        HistorialJugadorEquipoRest actualTeam = playerMapper.findIfPlayerHaveATeam(playerResponse.getJugadorid());
+
+        if(actualTeam != null){
+            playerMapper.updateTeamPlayer(playerResponse.getJugadorid());
+        }
+
+        DivTempRest divTempRest = divisionMapper.findDivIdFromTeamId(playerResponse.getEquipoid());
+        HistorialJugadorEquipoRest historialJugadorEquipoRest = new HistorialJugadorEquipoRest();
+        historialJugadorEquipoRest.setEquipoId(playerResponse.getEquipoid());
+        historialJugadorEquipoRest.setJugadorId(playerResponse.getJugadorid());
+        historialJugadorEquipoRest.setDivisionId(divTempRest.getDivisionId());
+        historialJugadorEquipoRest.setTemporadaId(divTempRest.getTemporadaId());
+        playerMapper.insertNewHistorialJugadorEquipo(historialJugadorEquipoRest);
+        }
         return playerMapper.updatePlayer(playerRest);
     }
 

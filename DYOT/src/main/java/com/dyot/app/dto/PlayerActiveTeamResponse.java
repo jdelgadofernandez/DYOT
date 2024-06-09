@@ -11,4 +11,7 @@ public class PlayerActiveTeamResponse extends PlayerResponse{
     @JsonProperty("fecha_inicio")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     Date fecha_inicio;
+
+    @JsonProperty("equipoid")
+    Integer equipoid;
 }

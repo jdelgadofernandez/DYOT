@@ -2,10 +2,7 @@ package com.dyot.app.services.impl;
 
 import com.dyot.app.dto.SeasonResponse;
 import com.dyot.app.entities.SeasonRest;
-import com.dyot.app.mapper.DivisionMapper;
-import com.dyot.app.mapper.EquipoMapper;
-import com.dyot.app.mapper.PlayerMapper;
-import com.dyot.app.mapper.SeasonMapper;
+import com.dyot.app.mapper.*;
 import com.dyot.app.services.DivisionService;
 import com.dyot.app.services.EquipoService;
 import com.dyot.app.services.PlayerService;
@@ -28,6 +25,9 @@ public class SeasonServiceImpl implements SeasonService {
     @Autowired
     private EquipoService equipoService;
 
+    @Autowired
+    private DatabaseCleanupMapper databaseCleanupMapper;
+
     @Override
     public int insertSeason(SeasonResponse seasonResponse, int division, int equipos) {
         SeasonRest rest = new SeasonRest();
@@ -40,5 +40,24 @@ public class SeasonServiceImpl implements SeasonService {
 
 
         return answer;
+    }
+
+    @Override
+    public void cleanDatabase() {
+        databaseCleanupMapper.deleteHistorialJugadorEquipo();
+        databaseCleanupMapper.deletePartidoDivisionEquipo();
+        databaseCleanupMapper.deleteEstadisticasEquipoDivision();
+        databaseCleanupMapper.deleteEquipo();
+        databaseCleanupMapper.deleteJugador();
+        databaseCleanupMapper.deleteDivision();
+        databaseCleanupMapper.deleteTemporada();
+
+        databaseCleanupMapper.resetHistorialJugadorEquipoSeq();
+        databaseCleanupMapper.resetPartidoDivisionEquipoSeq();
+        databaseCleanupMapper.resetEstadisticasEquipoDivisionSeq();
+        databaseCleanupMapper.resetEquipoSeq();
+        databaseCleanupMapper.resetJugadorSeq();
+        databaseCleanupMapper.resetDivisionSeq();
+        databaseCleanupMapper.resetTemporadaSeq();
     }
 }

@@ -6,4 +6,6 @@ public interface SeasonService {
 
     int insertSeason(SeasonResponse seasonResponse,int division, int equipos);
 
+    void cleanDatabase();
+
 }

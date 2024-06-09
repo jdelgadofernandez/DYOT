@@ -13,10 +13,16 @@ public class SeasonController {
     @Autowired
     private SeasonService seasonService;
 
+
     @PostMapping("/fullcreation")
     public int fullcreation(@RequestBody SeasonResponse seasonResponse,@RequestParam("division")Integer division,@RequestParam("equipos")Integer equipos){
 
         return seasonService.insertSeason(seasonResponse,division,equipos);
+    }
+
+    @PostMapping("/clean")
+    public void cleanDatabase() {
+        seasonService.cleanDatabase();
     }
 
 }

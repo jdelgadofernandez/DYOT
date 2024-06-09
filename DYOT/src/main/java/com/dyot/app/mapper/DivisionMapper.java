@@ -1,5 +1,6 @@
 package com.dyot.app.mapper;
 
+import com.dyot.app.entities.DivTempRest;
 import com.dyot.app.entities.DivisionRest;
 import com.dyot.app.entities.EquipoRest;
 import com.dyot.app.entities.PartidoDivisionEquipoRest;
@@ -10,14 +11,16 @@ import java.util.List;
 @Mapper
 public interface DivisionMapper {
 
-	@Select("SELECT * FROM DIVISION")
+	@Select("SELECT * FROM DIVISION\n" +
+			"ORDER BY name ASC")
 	List<DivisionRest> findAll();
 
 	@Select("SELECT * FROM DIVISION WHERE DIVISIONDID = #{id}")
 	DivisionRest findById(Integer id);
 
 	@Select("SELECT D.* FROM DIVISION D\n" +
-			"WHERE TEMPORADAID = #{id}")
+			"WHERE TEMPORADAID = #{id}\n" +
+			"ORDER BY name ASC")
 	List<DivisionRest> findBySeasonId(Integer id);
 
 	@Insert("INSERT INTO Division (divisionid, name, temporadaid) VALUES (DIVISION_SEQ.NEXTVAL,#{name}, #{temporadaId})")
@@ -26,6 +29,12 @@ public interface DivisionMapper {
 
 	@Select("SELECT DIVISIONID FROM DIVISION ORDER BY DIVISIONID DESC FETCH FIRST 1 ROWS ONLY")
 	int getLastInsertedId();
+
+	@Select("SELECT d.temporadaid, d.divisionid \n" +
+			"FROM estadisticasequipodivision EED\n" +
+			"LEFT JOIN DIVISION D ON d.divisionid= eed.divisionid \n" +
+			"WHERE EED.EQUIPOID = #{id}")
+	DivTempRest findDivIdFromTeamId(Integer id);
 
 	@Select("SELECT E.EQUIPOID FROM EQUIPO E\n" +
 			"LEFT JOIN estadisticasequipodivision EED ON E.EQUIPOID = EED.EQUIPOID\n" +

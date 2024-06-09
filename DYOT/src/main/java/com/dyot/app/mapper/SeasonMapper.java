@@ -9,6 +9,7 @@ import java.util.List;
 @Mapper
 public interface SeasonMapper {
 
+
 	@Select("SELECT * FROM TEMPORADA")
 	List<SeasonRest> findAll();
 
@@ -22,4 +23,6 @@ public interface SeasonMapper {
 
 	@Select("SELECT TEMPORADAID FROM TEMPORADA ORDER BY TEMPORADAID DESC FETCH FIRST 1 ROWS ONLY")
 	int getLastInsertedId();
+
+
 }

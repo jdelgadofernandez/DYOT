@@ -41,4 +41,18 @@ public interface PlayerMapper {
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "ID")
     int insertHistorialJugadorEquipo(HistorialJugadorEquipoRest historialJugadorEquipo);
 
+    @Insert("INSERT INTO HistorialJugadorEquipo (id, divisionid, equipoid, jugadorid, temporadaid, fechainicio, fechafin) " +
+            "VALUES (HISTORIALJUGADOREQUIPO_SEQ.NEXTVAL, #{divisionId}, #{equipoId}, #{jugadorId}, #{temporadaId}, CURRENT_TIMESTAMP, #{fechaFin,jdbcType=TIMESTAMP})")
+    @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "ID")
+    int insertNewHistorialJugadorEquipo(HistorialJugadorEquipoRest historialJugadorEquipo);
+
+    @Select("SELECT *\n" +
+            "FROM historialjugadorequipo HJE\n" +
+            "WHERE hje.fechafin IS NULL AND hje.jugadorid= #{id}")
+    HistorialJugadorEquipoRest findIfPlayerHaveATeam(Integer id);
+
+    @Update("UPDATE historialjugadorequipo\n" +
+            "SET historialjugadorequipo.fechafin = systimestamp\n" +
+            "WHERE fechafin IS NULL AND jugadorid= #{id}")
+    int updateTeamPlayer(Integer id);
 }
