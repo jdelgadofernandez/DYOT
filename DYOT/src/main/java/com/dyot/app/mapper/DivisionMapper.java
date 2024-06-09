@@ -43,7 +43,7 @@ public interface DivisionMapper {
 	List<Integer> findTeamIdListByDivisionId(Integer id);
 
 	@Insert("INSERT INTO PartidoDivisionEquipo (partidoid, divisionid, equipoid1, equipoid2, fechapartido, jornada, resultado) " +
-			"VALUES (PARTIDODIVISIONEQUIPO_SEQ.NEXTVAL, #{divisionId}, #{equipoId1}, #{equipoId2}, CURRENT_TIMESTAMP, #{jornada}, #{resultado})")
+			"VALUES (PARTIDODIVISIONEQUIPO_SEQ.NEXTVAL, #{divisionId}, #{equipoId1}, #{equipoId2}, CURRENT_TIMESTAMP + 7, #{jornada}, #{resultado})")
 	@Options(useGeneratedKeys = true, keyProperty = "partidoid", keyColumn = "partidoid")
 	int insertPartidoDivisionEquipo(PartidoDivisionEquipoRest partidoDivisionEquipo);
 
