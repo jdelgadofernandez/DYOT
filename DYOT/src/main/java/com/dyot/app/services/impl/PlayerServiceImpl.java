@@ -64,17 +64,30 @@ public class PlayerServiceImpl implements PlayerService {
         else{
         HistorialJugadorEquipoRest actualTeam = playerMapper.findIfPlayerHaveATeam(playerResponse.getJugadorid());
 
-        if(actualTeam != null){
-            playerMapper.updateTeamPlayer(playerResponse.getJugadorid());
+        if(actualTeam == null){
+            DivTempRest divTempRest = divisionMapper.findDivIdFromTeamId(playerResponse.getEquipoid());
+            HistorialJugadorEquipoRest historialJugadorEquipoRest = new HistorialJugadorEquipoRest();
+            historialJugadorEquipoRest.setEquipoId(playerResponse.getEquipoid());
+            historialJugadorEquipoRest.setJugadorId(playerResponse.getJugadorid());
+            historialJugadorEquipoRest.setDivisionId(divTempRest.getDivisionId());
+            historialJugadorEquipoRest.setTemporadaId(divTempRest.getTemporadaId());
+            playerMapper.insertNewHistorialJugadorEquipo(historialJugadorEquipoRest);
         }
 
-        DivTempRest divTempRest = divisionMapper.findDivIdFromTeamId(playerResponse.getEquipoid());
-        HistorialJugadorEquipoRest historialJugadorEquipoRest = new HistorialJugadorEquipoRest();
-        historialJugadorEquipoRest.setEquipoId(playerResponse.getEquipoid());
-        historialJugadorEquipoRest.setJugadorId(playerResponse.getJugadorid());
-        historialJugadorEquipoRest.setDivisionId(divTempRest.getDivisionId());
-        historialJugadorEquipoRest.setTemporadaId(divTempRest.getTemporadaId());
-        playerMapper.insertNewHistorialJugadorEquipo(historialJugadorEquipoRest);
+        if(actualTeam != null){
+            if(!actualTeam.getEquipoId().equals(playerResponse.getEquipoid())){
+                playerMapper.updateTeamPlayer(playerResponse.getJugadorid());
+                DivTempRest divTempRest = divisionMapper.findDivIdFromTeamId(playerResponse.getEquipoid());
+                HistorialJugadorEquipoRest historialJugadorEquipoRest = new HistorialJugadorEquipoRest();
+                historialJugadorEquipoRest.setEquipoId(playerResponse.getEquipoid());
+                historialJugadorEquipoRest.setJugadorId(playerResponse.getJugadorid());
+                historialJugadorEquipoRest.setDivisionId(divTempRest.getDivisionId());
+                historialJugadorEquipoRest.setTemporadaId(divTempRest.getTemporadaId());
+                playerMapper.insertNewHistorialJugadorEquipo(historialJugadorEquipoRest);
+            }
+        }
+
+
         }
         return playerMapper.updatePlayer(playerRest);
     }
